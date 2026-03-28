@@ -1,0 +1,38 @@
+[
+  {
+    "token": 1,
+    "name": "meraj",
+    "service": "Doctor",
+    "status": "served",
+    "createdAt": 1774451359645,
+    "servedAt": 1774451442336,
+    "estimatedTime": 0
+  },
+  {
+    "token": 2,
+    "name": "nitin",
+    "service": "Doctor",
+    "status": "served",
+    "createdAt": 1774451366521,
+    "servedAt": 1774451446251,
+    "estimatedTime": 5
+  },
+  {
+    "token": 3,
+    "name": "ali",
+    "service": "Doctor",
+    "status": "served",
+    "createdAt": 1774451370660,
+    "servedAt": 1774451469582,
+    "estimatedTime": 10
+  },
+  {
+    "token": 4,
+    "name": "garvit",
+    "service": "Doctor",
+    "status": "waiting",
+    "createdAt": 1774451383696,
+    "servedAt": null,
+    "estimatedTime": 15
+  }
+]

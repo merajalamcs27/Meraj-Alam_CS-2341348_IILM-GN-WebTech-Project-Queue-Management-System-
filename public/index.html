@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Queue System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>🎫 Smart Queue Management</h1>
+
+    <div class="card">
+        <form id="queueForm">
+            <input type="text" id="name" placeholder="Enter Your Name" required>
+
+            <select id="service">
+                <option value="Doctor">👨‍⚕️ Doctor</option>
+                <option value="Billing">💳 Billing</option>
+                <option value="Inquiry">ℹ️ Inquiry</option>
+            </select>
+
+            <button type="submit">Get Token</button>
+        </form>
+    </div>
+
+    <div class="token-box">
+        <h2 id="tokenDisplay">Your Token Will Appear Here</h2>
+    </div>
+
+    <div class="queue-section">
+        <h3>📋 Current Queue</h3>
+        <ul id="queueList"></ul>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
