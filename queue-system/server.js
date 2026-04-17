@@ -150,10 +150,30 @@ app.get("/analytics", async (req, res) => {
     });
 });
 
-app.post("/reset", async (req, res) => {
-    await Token.deleteMany({});
-    notifyUpdates();
-    res.json({ message: "Queue reset" });
+app.post("/chat", (req, res) => {
+    const message = req.body.message.toLowerCase();
+    let response = "I'm sorry, I don't have information on that. You can ask about our visiting hours, specialties, or emergency services.";
+
+    const knowledgeBase = {
+        hours: "Our visiting hours are 10:00 AM – 1:00 PM and 4:00 PM – 8:00 PM daily.",
+        location: "We are located at 123 Health Avenue, City Center, near the Metro Station.",
+        emergency: "Yes, we have 24/7 Trauma and Emergency Care. For immediate help, please use the Emergency button in the queue system.",
+        doctors: "We have top specialists in Cardiology, Pediatrics, Orthopedics, and Oncology.",
+        specialty: "We specialize in Cardiology, Pediatrics, Orthopedics, and Oncology.",
+        appointment: "You can book an appointment by calling +1-800-HEALTHY or just take a token here for immediate consultation.",
+        hello: "Hello! I am your Global Health Assistant. How can I help you today?",
+        hi: "Hi there! How can I assist you with our hospital services?",
+        billing: "Our billing counter is open 24/7, but major insurance processing happens between 9 AM and 5 PM."
+    };
+
+    for (let key in knowledgeBase) {
+        if (message.includes(key)) {
+            response = knowledgeBase[key];
+            break;
+        }
+    }
+
+    res.json({ response });
 });
 
 io.on("connection", () => console.log("📱 Real-time Client Connected"));

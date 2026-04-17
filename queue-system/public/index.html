@@ -39,6 +39,22 @@
     </div>
 </div>
 
+<!-- AI Chatbot Widget -->
+<div id="chat-widget">
+    <div id="chat-window" class="hidden">
+        <div class="chat-header">
+            <h4>🏥 Health-AI Assistant</h4>
+            <button onclick="toggleChat()">×</button>
+        </div>
+        <div id="chat-messages"></div>
+        <div class="chat-input-area">
+            <input type="text" id="user-input" placeholder="Ask about hours, specialty...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <button id="chat-toggle" onclick="toggleChat()">💬 Ask Assistant</button>
+</div>
+
 <script src="/socket.io/socket.io.js"></script>
 <script src="script.js"></script>
 </body>
