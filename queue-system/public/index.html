@@ -11,28 +11,35 @@
 
     <div class="card">
         <form id="queueForm">
-            <input type="text" id="name" placeholder="Enter Your Name" required>
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="tel" id="phone" placeholder="Phone Number (e.g. +123...)" required>
 
             <select id="service">
-                <option value="Doctor">👨‍⚕️ Doctor</option>
-                <option value="Billing">💳 Billing</option>
-                <option value="Inquiry">ℹ️ Inquiry</option>
+                <option value="Doctor">👨‍⚕️ Doctor Consultation</option>
+                <option value="Billing">💳 Billing & Payment</option>
+                <option value="Inquiry">ℹ️ General Inquiry</option>
             </select>
 
-            <button type="submit">Get Token</button>
+            <div class="priority-check">
+                <input type="checkbox" id="priority">
+                <label for="priority">⚠️ Emergency / Priority Case</label>
+            </div>
+
+            <button type="submit">Get Your Token</button>
         </form>
     </div>
 
     <div class="token-box">
-        <h2 id="tokenDisplay">Your Token Will Appear Here</h2>
+        <div id="tokenDisplay">Your Token Will Appear Here</div>
     </div>
 
     <div class="queue-section">
-        <h3>📋 Current Queue</h3>
+        <h3>📋 Live Status</h3>
         <ul id="queueList"></ul>
     </div>
 </div>
 
+<script src="/socket.io/socket.io.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

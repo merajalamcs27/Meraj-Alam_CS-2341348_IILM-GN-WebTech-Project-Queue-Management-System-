@@ -10,16 +10,49 @@
     <h1>🛠 Admin Dashboard</h1>
 
     <div class="admin-buttons">
-        <button class="call-btn" onclick="callNext()">📢 Call Next</button>
-        <button class="reset-btn" onclick="resetQueue()">🔄 Reset Queue</button>
+        <button class="call-btn" onclick="callNext()">📢 Call Next Person</button>
+        <button class="reset-btn" onclick="resetQueue()">🔄 Reset Everything</button>
+    </div>
+
+    <!-- Feature 6: Analytics Section -->
+    <div class="analytics-card">
+        <h3>📊 Business Analytics</h3>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span id="stat-total">0</span>
+                <label>Total Tokens</label>
+            </div>
+            <div class="stat-item">
+                <span id="stat-served">0</span>
+                <label>Served Today</label>
+            </div>
+            <div class="stat-item">
+                <span id="stat-avg">0m</span>
+                <label>Avg Wait Time</label>
+            </div>
+        </div>
     </div>
 
     <div class="queue-section">
-        <h3>📋 Queue List</h3>
+        <h3>📋 Live Management</h3>
         <ul id="queueList"></ul>
     </div>
 </div>
 
+<script src="/socket.io/socket.io.js"></script>
 <script src="script.js"></script>
+<script>
+    async function updateAnalytics() {
+        const res = await fetch("/analytics");
+        const data = await res.json();
+        document.getElementById("stat-total").innerText = data.totalTokens;
+        document.getElementById("stat-served").innerText = data.totalServed;
+        document.getElementById("stat-avg").innerText = data.avgWaitTime + "m";
+    }
+
+    // Refresh analytics when queue updates
+    socket.on("queueUpdated", updateAnalytics);
+    updateAnalytics();
+</script>
 </body>
 </html>

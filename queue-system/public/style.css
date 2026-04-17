@@ -105,13 +105,126 @@ li:hover {
     background: #c0392b;
 }
 
+/* Priority Checkbox Styling */
+.priority-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+    font-weight: 600;
+    color: #e74a3b;
+}
+
+.priority-check input {
+    width: 20px;
+    height: 20px;
+}
+
+/* Priority Badge on Token Card */
+.priority-badge {
+    display: inline-block;
+    background: #e74a3b;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-top: 10px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Enhanced Queue Items */
+li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-left: 5px solid #4e73df;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+li.priority-item {
+    border-left-color: #e74a3b;
+    background: #fff5f5;
+}
+
+li.served {
+    opacity: 0.6;
+    border-left-color: #1cc88a;
+}
+
+.token-id {
+    font-size: 20px;
+    font-weight: 800;
+    color: #4e73df;
+}
+
+.user-info {
+    flex-grow: 1;
+    text-align: left;
+    margin-left: 15px;
+}
+
+.user-info strong { display: block; font-size: 16px; }
+.user-info small { color: #666; }
+
+.status-tag {
+    font-size: 12px;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: #eaecf4;
+    font-weight: bold;
+}
+
+/* Analytics Dashboard */
+.analytics-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.stat-item {
+    padding: 10px;
+    background: #f8f9fc;
+    border-radius: 8px;
+}
+
+.stat-item span {
+    display: block;
+    font-size: 24px;
+    font-weight: 800;
+    color: #4e73df;
+}
+
+.stat-item label {
+    font-size: 11px;
+    color: #858796;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
-    .container {
-        width: 95%;
-    }
-
-    input, select {
-        width: 100%;
-    }
+    .container { width: 95%; }
+    .stats-grid { grid-template-columns: 1fr; }
+    input, select { width: 100%; }
 }
