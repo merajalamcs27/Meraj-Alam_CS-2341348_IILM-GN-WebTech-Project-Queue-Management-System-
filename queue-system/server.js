@@ -67,8 +67,9 @@ async function calculateEstimatedTime(tokenNumber) {
 }
 
 const notifyUpdates = async () => {
-    const queue = await Token.find();
-    io.emit("queueUpdated", queue);
+    // Only send public fields to the frontend
+    const publicQueue = await Token.find({}, 'token name service status priority createdAt');
+    io.emit("queueUpdated", publicQueue);
 };
 
 /* ================= ROUTES ================= */
@@ -87,17 +88,24 @@ app.post("/addToken", async (req, res) => {
         });
 
         await newToken.save();
-        const estimatedTime = await calculateEstimatedTime(newToken.token);
+        const avgWait = await getAverageServiceTime();
+        const waitingBefore = await Token.countDocuments({ status: "waiting", token: { $lt: newToken.token } });
+        const estimatedTime = Math.round(waitingBefore * avgWait);
         
         notifyUpdates();
-        res.json({ ...newToken.toObject(), estimatedTime });
+        
+        // Return only what the user needs to see
+        const responseData = newToken.toObject();
+        delete responseData.phone; 
+        res.json({ ...responseData, estimatedTime });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
 
 app.get("/queue", async (req, res) => {
-    const queue = await Token.find();
+    // SECURITY: Never return phone numbers in the public list
+    const queue = await Token.find({}, 'token name service status priority createdAt');
     res.json(queue);
 });
 
