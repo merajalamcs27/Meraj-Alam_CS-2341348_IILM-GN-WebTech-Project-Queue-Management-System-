@@ -85,3 +85,5 @@ loadQueue();
 function toggleChat() { document.getElementById('chat-window').classList.toggle('hidden'); }
 async function sendMessage() { const input = document.getElementById('user-input'); const text = input.value; if(!text) return; appendMessage('user', text); input.value = ''; const res = await fetch('/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: text }) }); const data = await res.json(); setTimeout(() => appendMessage('bot', data.response), 500); }
 function appendMessage(sender, text) { const container = document.getElementById('chat-messages'); const div = document.createElement('div'); div.className = 'message ' + (sender === 'user' ? 'user-msg' : 'bot-msg'); div.innerText = text; container.appendChild(div); container.scrollTop = container.scrollHeight; }
+
+function askOption(text) { const input = document.getElementById('user-input'); input.value = text; sendMessage(); }

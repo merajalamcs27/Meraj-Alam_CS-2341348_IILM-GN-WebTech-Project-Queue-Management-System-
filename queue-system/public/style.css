@@ -291,3 +291,8 @@ li.served { border-left-color: var(--success); opacity: 0.5; }
 .chat-input-area input { flex-grow: 1; margin: 0; padding: 10px; font-size: 13px; }
 .chat-input-area button { width: auto; padding: 10px 15px; font-size: 12px; }
 @media (max-width: 600px) { #chat-window { width: 85vw; right: -10px; } }
+
+/* Chat Options Styling */
+.chat-options { padding: 5px 10px; display: flex; flex-wrap: wrap; gap: 5px; background: rgba(0,0,0,0.1); border-top: 1px solid var(--glass-border); }
+.option-pill { width: auto !important; padding: 6px 12px !important; font-size: 11px !important; border-radius: 20px !important; background: var(--glass-bg) !important; color: var(--text-muted) !important; border: 1px solid var(--glass-border) !important; box-shadow: none !important; }
+.option-pill:hover { background: var(--primary) !important; color: white !important; border-color: var(--primary) !important; }
