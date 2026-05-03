@@ -206,10 +206,21 @@ app.post("/chat", async (req, res) => {
         const genAI = new GoogleGenerativeAI(apiKey);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const prompt = `You are a helpful and professional Global Health Assistant for a Smart Hospital Queue System. 
-        Answer the user's question about hospital services, symptoms, or queue status. 
-        Be concise and polite. If they mention symptoms, suggest the appropriate department (Cardiology, Pediatrics, etc.).
-        User says: "${message}"`;
+        const prompt = `You are the official Global Health Assistant for the Smart Hospital Queue System. 
+        Use the following information to answer the user's questions accurately:
+        - Visiting Hours: 10:00 AM – 1:00 PM and 4:00 PM – 8:00 PM daily.
+        - Location: 123 Health Avenue, City Center, near the Metro Station.
+        - Emergency: 24/7 Trauma and Emergency Care available.
+        - Specialties: Cardiology, Pediatrics, Orthopedics, and Oncology.
+        - Appointments: Users can take a token on this website for immediate consultation or call +1-800-HEALTHY.
+        - Billing: Counter open 24/7.
+
+        Guidelines:
+        1. Be concise, polite, and helpful.
+        2. If they mention symptoms, suggest the correct specialty (e.g., chest pain -> Cardiology).
+        3. If they ask about things not related to the hospital, politely redirect them.
+
+        User Question: "${message}"`;
 
         const result = await model.generateContent(prompt);
         const responseText = result.response.text();
