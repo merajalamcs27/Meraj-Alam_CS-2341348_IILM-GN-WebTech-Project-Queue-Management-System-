@@ -47,25 +47,6 @@ app.use(session({
     saveUninitialized: true
 }));
 
-/* ================= TWILIO CONFIG ================= */
-const twilio = require('twilio');
-const accountSid = process.env.TWILIO_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const twilioPhone = process.env.TWILIO_PHONE;
-
-const sendNotification = (to, body) => {
-    if (!accountSid || !authToken) return;
-    const client = twilio(accountSid, authToken);
-    
-    // Twilio WhatsApp requires numbers to be prefixed with 'whatsapp:'
-    const from = `whatsapp:${twilioPhone}`; 
-    const formattedTo = to.startsWith('whatsapp:') ? to : `whatsapp:${to}`;
-
-    client.messages.create({ body, from, to: formattedTo })
-        .then(msg => console.log("✅ Automated WhatsApp Sent:", msg.sid))
-        .catch(err => console.error("❌ Automated WhatsApp Failed:", err));
-};
-
 /* ================= UTILITY LOGIC ================= */
 
 async function getAverageServiceTime() {
@@ -142,18 +123,6 @@ app.post("/next", async (req, res) => {
             nextToken.status = "served";
             nextToken.servedAt = Date.now();
             await nextToken.save();
-
-            // Notify next person
-            const nextInLine = await Token.findOne({ status: "waiting" }).sort({ token: 1 });
-            if (nextInLine && nextInLine.phone) {
-                sendNotification(nextInLine.phone, `Hi ${nextInLine.name}, you are next up!`);
-            }
-
-            // Feature 5: Notify the person 2 spots away that their turn is coming
-            const soonInLine = await Token.find({ status: "waiting" }).sort({ token: 1 }).limit(3);
-            if (soonInLine[2] && soonInLine[2].phone) {
-                sendNotification(soonInLine[2].phone, `Hi ${soonInLine[2].name}, you are 3rd in line. Please head to the waiting area!`);
-            }
 
             notifyUpdates();
             res.json(nextToken);
