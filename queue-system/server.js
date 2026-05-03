@@ -49,15 +49,21 @@ app.use(session({
 
 /* ================= TWILIO CONFIG ================= */
 const twilio = require('twilio');
-const accountSid = process.env.TWILIO_SID; 
+const accountSid = process.env.TWILIO_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioPhone = process.env.TWILIO_PHONE;
 
-const sendSMS = (to, body) => {
+const sendNotification = (to, body) => {
     if (!accountSid || !authToken) return;
     const client = twilio(accountSid, authToken);
-    client.messages.create({ body, from: twilioPhone, to })
-        .catch(err => console.error("❌ SMS Failed:", err));
+    
+    // Twilio WhatsApp requires numbers to be prefixed with 'whatsapp:'
+    const from = `whatsapp:${twilioPhone}`; 
+    const formattedTo = to.startsWith('whatsapp:') ? to : `whatsapp:${to}`;
+
+    client.messages.create({ body, from, to: formattedTo })
+        .then(msg => console.log("✅ Automated WhatsApp Sent:", msg.sid))
+        .catch(err => console.error("❌ Automated WhatsApp Failed:", err));
 };
 
 /* ================= UTILITY LOGIC ================= */
@@ -88,11 +94,11 @@ const notifyUpdates = async () => {
 app.post("/addToken", async (req, res) => {
     try {
         const { name, service, phone, isPriority, appointmentTime } = req.body;
-        
+
         // Get the last token number to ensure uniqueness
         const lastToken = await Token.findOne().sort({ token: -1 });
         const nextTokenNumber = lastToken ? lastToken.token + 1 : 1;
-        
+
         const newToken = new Token({
             token: nextTokenNumber,
             name,
@@ -106,12 +112,12 @@ app.post("/addToken", async (req, res) => {
         const avgWait = await getAverageServiceTime();
         const waitingBefore = await Token.countDocuments({ status: "waiting", token: { $lt: newToken.token } });
         const estimatedTime = Math.round(waitingBefore * avgWait);
-        
+
         notifyUpdates();
-        
+
         // Return only what the user needs to see
         const responseData = newToken.toObject();
-        delete responseData.phone; 
+        delete responseData.phone;
         res.json({ ...responseData, estimatedTime });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -140,13 +146,13 @@ app.post("/next", async (req, res) => {
             // Notify next person
             const nextInLine = await Token.findOne({ status: "waiting" }).sort({ token: 1 });
             if (nextInLine && nextInLine.phone) {
-                sendSMS(nextInLine.phone, `Hi ${nextInLine.name}, you are next up!`);
+                sendNotification(nextInLine.phone, `Hi ${nextInLine.name}, you are next up!`);
             }
 
             // Feature 5: Notify the person 2 spots away that their turn is coming
             const soonInLine = await Token.find({ status: "waiting" }).sort({ token: 1 }).limit(3);
             if (soonInLine[2] && soonInLine[2].phone) {
-                sendSMS(soonInLine[2].phone, `Hi ${soonInLine[2].name}, you are 3rd in line. Please head to the waiting area!`);
+                sendNotification(soonInLine[2].phone, `Hi ${soonInLine[2].name}, you are 3rd in line. Please head to the waiting area!`);
             }
 
             notifyUpdates();
@@ -193,11 +199,11 @@ app.get("/analytics", async (req, res) => {
     const total = await Token.countDocuments();
     const servedCount = await Token.countDocuments({ status: "served" });
     const avgWait = await getAverageServiceTime();
-    
-    res.json({ 
-        totalTokens: total, 
-        totalServed: servedCount, 
-        avgWaitTime: Math.round(avgWait) 
+
+    res.json({
+        totalTokens: total,
+        totalServed: servedCount,
+        avgWaitTime: Math.round(avgWait)
     });
 });
 
