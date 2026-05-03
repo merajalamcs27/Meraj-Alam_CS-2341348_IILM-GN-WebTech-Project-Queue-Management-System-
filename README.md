@@ -66,8 +66,8 @@ A professional, real-time hospital queue management solution built with Node.js,
 ---
 
 ## 🔐 Admin Access
-To access the management panel, go to:
-👉 `/admin.html`
+To manage the queue, go to the Admin Dashboard:
+👉 **[Live Admin Link](https://meraj-alam-cs-2341348-iilm-gn-webtech.onrender.com/admin.html)**
 -   **Username**: `admin`
 -   **Password**: `hospital123`
 
