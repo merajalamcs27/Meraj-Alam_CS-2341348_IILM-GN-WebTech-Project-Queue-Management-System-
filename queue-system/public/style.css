@@ -54,40 +54,64 @@ h1 {
     transition: transform 0.3s ease;
 }
 
-/* Inputs & Form */
+/* Form Alignment Fixes */
+#queueForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-group {
+    width: 100%;
+    max-width: 400px;
+    text-align: left;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    max-width: 400px;
+    text-align: left;
+}
+
+.flex-1 { flex: 1; }
+
+.form-row .form-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+
 input, select {
-    width: 100%;
-    max-width: 400px;
-    padding: 14px;
-    margin: 10px 0;
-    border-radius: 12px;
-    border: 2px solid #e2e8f0;
-    background: white;
-    color: var(--text-main);
-    font-size: 16px;
-    box-sizing: border-box;
-    outline: none;
-    transition: all 0.3s ease;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
 }
 
-input:focus, select:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(53, 88, 114, 0.1);
-}
-
-button {
-    width: 100%;
-    max-width: 400px;
-    padding: 16px;
+/* Enhanced Priority Toggle */
+.priority-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 15px 0;
+    padding: 12px 20px;
+    background: rgba(225, 29, 72, 0.05);
+    border: 1px solid rgba(225, 29, 72, 0.2);
     border-radius: 12px;
-    border: none;
-    background: var(--primary);
-    color: white;
-    font-size: 16px;
-    font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
 }
+
+.priority-check input { width: 18px !important; height: 18px !important; margin: 0 !important; cursor: pointer; }
+.priority-check span { font-size: 14px; font-weight: 700; color: var(--text-main); }
 
 button:hover {
     background: var(--primary-hover);
