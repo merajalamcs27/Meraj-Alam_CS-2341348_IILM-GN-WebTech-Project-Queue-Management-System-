@@ -54,12 +54,12 @@ h1 {
     transition: transform 0.3s ease;
 }
 
-/* Form Alignment Fixes */
+/* Form Layout & Alignment */
 #queueForm {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
 }
 
 .form-group {
@@ -78,28 +78,61 @@ h1 {
 
 .flex-1 { flex: 1; }
 
-.form-row .form-group label {
+.form-group label {
     display: block;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 800;
     color: var(--text-muted);
-    margin-bottom: 5px;
-    margin-left: 5px;
+    margin-bottom: 6px;
+    margin-left: 4px;
 }
 
+/* Inputs & Form Elements */
 input, select {
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    background: white;
+    color: var(--text-main);
+    font-size: 16px;
+    box-sizing: border-box;
+    outline: none;
+    transition: all 0.3s ease;
 }
 
-/* Enhanced Priority Toggle */
+input:focus, select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(53, 88, 114, 0.1);
+}
+
+button {
+    width: 100%;
+    max-width: 400px;
+    padding: 16px;
+    border-radius: 12px;
+    border: none;
+    background: var(--primary);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 10px;
+}
+
+button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(53, 88, 114, 0.2);
+}
+
+/* Priority Check Alignment */
 .priority-check {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    margin: 15px 0;
     padding: 12px 20px;
     background: rgba(225, 29, 72, 0.05);
     border: 1px solid rgba(225, 29, 72, 0.2);
@@ -110,16 +143,21 @@ input, select {
     box-sizing: border-box;
 }
 
-.priority-check input { width: 18px !important; height: 18px !important; margin: 0 !important; cursor: pointer; }
-.priority-check span { font-size: 14px; font-weight: 700; color: var(--text-main); }
-
-button:hover {
-    background: var(--primary-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(53, 88, 114, 0.2);
+.priority-check input[type="checkbox"] {
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    cursor: pointer;
 }
 
-/* Token Card Display */
+.priority-check span {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+/* Token Display */
 .token-card h3 {
     font-size: 42px;
     margin: 0;
@@ -144,7 +182,7 @@ button:hover {
     100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); }
 }
 
-/* Queue List */
+/* Queue List Styling */
 ul { list-style: none; padding: 0; margin-top: 20px; }
 
 li {
@@ -167,13 +205,13 @@ li.served { border-left-color: var(--success); opacity: 0.5; }
 .user-info strong { display: block; font-size: 18px; }
 .user-info small { color: var(--text-muted); }
 
-/* Analytics Dashboard */
+/* Analytics Grid */
 .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
 .stat-item { background: white; padding: 15px; border-radius: 15px; border: 1px solid var(--glass-border); }
 .stat-item span { display: block; font-size: 24px; font-weight: 800; color: var(--primary); }
 .stat-item label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
 
-/* AI Chatbot Styling */
+/* AI Assistant Interface */
 #chat-widget { position: fixed; bottom: 30px; right: 30px; z-index: 1000; }
 #chat-toggle { width: auto; padding: 12px 24px; border-radius: 50px; background: var(--primary); color: white; border: none; cursor: pointer; box-shadow: 0 10px 30px rgba(53, 88, 114, 0.3); }
 
@@ -210,7 +248,7 @@ li.served { border-left-color: var(--success); opacity: 0.5; }
 }
 .option-pill:hover { background: var(--primary) !important; color: white !important; }
 
-/* Admin Auth */
+/* Admin Security Dashboard */
 #login-overlay { 
     position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
     background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); 
@@ -219,14 +257,16 @@ li.served { border-left-color: var(--success); opacity: 0.5; }
 .login-card { background: white; padding: 40px; border-radius: 24px; width: 90%; max-width: 400px; text-align: center; }
 .hidden { display: none !important; }
 
-/* WhatsApp */
+/* Notification Buttons */
 .wa-btn {
     text-decoration: none; background: #25D366; color: white;
     padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold;
 }
 
+/* Responsive Breakpoints */
 @media (max-width: 600px) {
     .container { width: 92%; }
     .stats-grid { grid-template-columns: 1fr; }
+    .form-row { flex-direction: column; gap: 10px; }
     #chat-window { width: 85vw; right: -10px; }
 }
