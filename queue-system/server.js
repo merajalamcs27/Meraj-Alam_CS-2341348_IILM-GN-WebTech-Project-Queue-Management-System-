@@ -159,6 +159,16 @@ app.post("/next", async (req, res) => {
     }
 });
 
+app.post("/reset", async (req, res) => {
+    try {
+        await Token.deleteMany({});
+        notifyUpdates();
+        res.json({ message: "Queue Reset Successfully" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // Feature 1: Login Route
 app.post("/login", (req, res) => {
     const { username, password } = req.body;
