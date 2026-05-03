@@ -54,9 +54,10 @@ function renderQueue(data) {
             li.className = item.status;
             if (item.priority) li.classList.add("priority-item");
 
-            // WhatsApp Notification Logic
+            // WhatsApp Notification Logic (CLEANED)
+            const cleanPhone = item.phone ? item.phone.replace(/\D/g, '') : ''; // Remove all non-digits
             const whatsappMsg = encodeURIComponent(`Hi ${item.name}, your token #${item.token} for ${item.service} is coming up soon! Please head to the waiting area.`);
-            const whatsappLink = `https://wa.me/${item.phone}?text=${whatsappMsg}`;
+            const whatsappLink = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${whatsappMsg}`;
 
             li.innerHTML = `
                 <span class="token-id">#${item.token}</span>
