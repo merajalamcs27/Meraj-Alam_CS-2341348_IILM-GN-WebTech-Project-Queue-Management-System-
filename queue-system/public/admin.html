@@ -7,7 +7,20 @@
 <body>
 
 <div class="container">
-    <h1>🛠 Admin Dashboard</h1>
+    <div class="admin-header">
+        <h1>🛠 Admin Dashboard</h1>
+        <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+    </div>
+
+    <div id="login-overlay" class="hidden">
+        <div class="login-card">
+            <h2>🔐 Admin Access</h2>
+            <input type="text" id="admin-user" placeholder="Username">
+            <input type="password" id="admin-pass" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <p id="login-error" class="error hidden">Invalid credentials</p>
+        </div>
+    </div>
 
     <div class="admin-buttons">
         <button class="call-btn" onclick="callNext()">📢 Call Next Person</button>
@@ -51,7 +64,9 @@
     }
 
     // Refresh analytics when queue updates
-    socket.on("queueUpdated", updateAnalytics);
+    socket.on("queueUpdated", (data) => {
+        updateAnalytics();
+    });
     updateAnalytics();
 </script>
 </body>
