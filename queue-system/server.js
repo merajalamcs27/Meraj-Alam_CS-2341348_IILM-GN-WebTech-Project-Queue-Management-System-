@@ -176,30 +176,48 @@ app.get("/analytics", async (req, res) => {
     });
 });
 
-app.post("/chat", (req, res) => {
-    const message = req.body.message.toLowerCase();
-    let response = "I'm sorry, I don't have information on that. You can ask about our visiting hours, specialties, or emergency services.";
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-    const knowledgeBase = {
-        hours: "Our visiting hours are 10:00 AM – 1:00 PM and 4:00 PM – 8:00 PM daily.",
-        location: "We are located at 123 Health Avenue, City Center, near the Metro Station.",
-        emergency: "Yes, we have 24/7 Trauma and Emergency Care. For immediate help, please use the Emergency button in the queue system.",
-        doctors: "We have top specialists in Cardiology, Pediatrics, Orthopedics, and Oncology.",
-        specialty: "We specialize in Cardiology, Pediatrics, Orthopedics, and Oncology.",
-        appointment: "You can book an appointment by calling +1-800-HEALTHY or just take a token here for immediate consultation.",
-        hello: "Hello! I am your Global Health Assistant. How can I help you today?",
-        hi: "Hi there! How can I assist you with our hospital services?",
-        billing: "Our billing counter is open 24/7, but major insurance processing happens between 9 AM and 5 PM."
+app.post("/chat", async (req, res) => {
+    const message = req.body.message;
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    // Fallback Keyword Logic (Used if API Key is missing or AI fails)
+    const getFallbackResponse = (msg) => {
+        const lowerMsg = msg.toLowerCase();
+        const knowledgeBase = {
+            hours: "Our visiting hours are 10:00 AM – 1:00 PM and 4:00 PM – 8:00 PM daily.",
+            location: "We are located at 123 Health Avenue, City Center, near the Metro Station.",
+            emergency: "Yes, we have 24/7 Trauma and Emergency Care.",
+            hello: "Hello! I am your Global Health Assistant. How can I help you today?",
+            billing: "Our billing counter is open 24/7."
+        };
+        for (let key in knowledgeBase) {
+            if (lowerMsg.includes(key)) return knowledgeBase[key];
+        }
+        return "I'm sorry, I don't have information on that. You can ask about our hours, specialties, or emergency services.";
     };
 
-    for (let key in knowledgeBase) {
-        if (message.includes(key)) {
-            response = knowledgeBase[key];
-            break;
-        }
+    if (!apiKey || apiKey === "your_key_here") {
+        return res.json({ response: getFallbackResponse(message) });
     }
 
-    res.json({ response });
+    try {
+        const genAI = new GoogleGenerativeAI(apiKey);
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+        const prompt = `You are a helpful and professional Global Health Assistant for a Smart Hospital Queue System. 
+        Answer the user's question about hospital services, symptoms, or queue status. 
+        Be concise and polite. If they mention symptoms, suggest the appropriate department (Cardiology, Pediatrics, etc.).
+        User says: "${message}"`;
+
+        const result = await model.generateContent(prompt);
+        const responseText = result.response.text();
+        res.json({ response: responseText });
+    } catch (err) {
+        console.error("❌ Gemini Error:", err);
+        res.json({ response: getFallbackResponse(message) });
+    }
 });
 
 io.on("connection", () => console.log("📱 Real-time Client Connected"));

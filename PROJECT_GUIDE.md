@@ -18,6 +18,7 @@ To build a real-time, transparent, and secure digital queue management system th
 
 -   **Real-Time Bidirectional Sync**: Uses WebSockets (Socket.io) to update all connected clients instantly when a token is called.
 -   **Smart Wait Time Prediction**: Calculates estimated wait times based on historical service data and live queue length.
+-   **AI-Powered Smart Assistant**: Integrated **Google Gemini AI** that understands symptoms and suggests the correct department (e.g., Cardiology, Pediatrics).
 -   **Zero-Cost Patient Notifications**: Implements a manual WhatsApp notification bridge to keep patients informed without external API costs.
 -   **Secure Administrative Control**: Role-based access with session-managed authentication for the management dashboard.
 -   **Cloud-Native Persistence**: Global data availability using MongoDB Atlas.
@@ -72,7 +73,7 @@ To build a real-time, transparent, and secure digital queue management system th
 
 ## 🔮 6. Future Scope
 
-1.  **AI Symptom Analysis**: Integrating the Gemini API to help patients choose the right department based on their symptoms.
+1.  **Multilingual Support**: Adding support for Hindi and other regional languages to make the system accessible to everyone.
 2.  **Voice Announcement System**: Using the Web Speech API to announce token numbers in the hospital lobby automatically.
 3.  **Digital Receipts**: Generating QR-coded PDF tokens for patients to carry on their phones.
 
